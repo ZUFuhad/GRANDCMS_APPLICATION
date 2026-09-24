@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "grand-cms",
+  "compatibility_date": "2026-01-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": ".open-next/assets" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "grand-cms-db",
+      "database_id": "PASTE_YOUR_D1_DATABASE_ID_HERE"
+    }
+  ]
+}

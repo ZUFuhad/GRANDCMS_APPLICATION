@@ -1,0 +1,2 @@
+import {ReactNode} from 'react'; import Sidebar from './Sidebar';
+export default function Shell({children,title}:{children:ReactNode,title:string}){return <div className="shell"><Sidebar/><main className="main"><div className="top"><div><h1>{title}</h1><div className="muted">Grand CMS · we value what you have to say !</div></div><a className="btn alt" href="/api/auth/logout">Logout</a></div>{children}</main></div>}

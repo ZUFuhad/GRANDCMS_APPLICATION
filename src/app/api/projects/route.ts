@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import {db} from '@/src/lib/db'; import {requireUser} from '@/src/lib/auth';
+export async function GET(){await requireUser();return NextResponse.json(await (await db()).project.findMany({include:{client:true,tasks:true},orderBy:{createdAt:'desc'}}))}
+export async function POST(req:Request){await requireUser();const b=await req.json();return NextResponse.json(await (await db()).project.create({data:{name:String(b.name),clientId:b.clientId||null,status:b.status||'PLANNED',description:b.description,startDate:b.startDate?new Date(b.startDate):null,endDate:b.endDate?new Date(b.endDate):null,budget:b.budget}}),{status:201})}

@@ -1,0 +1,2 @@
+import {requireUser} from '@/src/lib/auth'; import {db} from '@/src/lib/db';
+export async function POST(req:Request){await requireUser();const form=await req.formData();const objective=String(form.get('objective')||'');const criteria=String(form.get('criteria')||'');const run=await (await db()).growthRun.create({data:{objective,criteria:JSON.stringify({text:criteria}),status:'NEEDS_PROVIDER'}});return new Response(`Growth run ${run.id} created. Configure an approved research/LLM provider to execute discovery.`,{status:200})}

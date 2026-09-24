@@ -1,0 +1,2 @@
+import {requireUser} from '@/src/lib/auth'; import {db} from '@/src/lib/db';
+export async function POST(req:Request){await requireUser();const form=await req.formData();const prompt=String(form.get('prompt')||'');const style=String(form.get('style')||'');const x=await (await db()).designGeneration.create({data:{prompt,style,status:'NEEDS_PROVIDER',provider:process.env.OPENAI_API_KEY?'openai':null}});return new Response(`Design job ${x.id} created. Configure the image provider to generate output.`,{status:200})}

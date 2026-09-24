@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import {db} from '@/src/lib/db'; import {requireUser} from '@/src/lib/auth';
+export async function GET(){await requireUser();return NextResponse.json(await (await db()).client.findMany({orderBy:{createdAt:'desc'}}))}
+export async function POST(req:Request){const u=await requireUser();const b=await req.json();const x=await (await db()).client.create({data:{name:String(b.name),designation:b.designation||null,company:b.company,email:b.email,phone:b.phone,address:b.address,taxId:b.taxId,tags:b.tags?String(b.tags):null,notes:b.notes}});await (await db()).auditLog.create({data:{userId:u.id,action:'CREATE',entity:'Client',entityId:x.id}});return NextResponse.json(x,{status:201})}

@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import {db} from '@/src/lib/db'; import {requireUser} from '@/src/lib/auth';
+export async function GET(){await requireUser();return NextResponse.json(await (await db()).expense.findMany({include:{supplier:true,client:true,project:true},orderBy:{expenseDate:'desc'}}))}
+export async function POST(req:Request){await requireUser();const b=await req.json();return NextResponse.json(await (await db()).expense.create({data:{title:String(b.title),category:String(b.category||'General'),amount:b.amount,expenseDate:b.expenseDate?new Date(b.expenseDate):new Date(),supplierId:b.supplierId||null,clientId:b.clientId||null,projectId:b.projectId||null,notes:b.notes}}),{status:201})}

@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import {db} from '@/src/lib/db'; import {requireUser} from '@/src/lib/auth';
+export async function GET(){await requireUser();return NextResponse.json(await (await db()).liability.findMany({include:{supplier:true},orderBy:{createdAt:'desc'}}))}
+export async function POST(req:Request){await requireUser();const b=await req.json();return NextResponse.json(await (await db()).liability.create({data:{title:String(b.title),type:b.type==='RECEIVABLE'?'RECEIVABLE':'PAYABLE',amount:b.amount,dueDate:b.dueDate?new Date(b.dueDate):null,supplierId:b.supplierId||null,notes:b.notes}}),{status:201})}
